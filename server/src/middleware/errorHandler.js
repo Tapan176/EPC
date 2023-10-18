@@ -72,39 +72,39 @@ const errorHandler = (err, req, res, next) => {
       message: 'Failed to send email',
       statusCode: 500,
     },
-    add_item_failed: {
-      code: 'add_item_failed',
-      message: 'Failed to add item',
+    add_course_failed: {
+      code: 'add_course_failed',
+      message: 'Failed to add course',
       statusCode: 500,
     },
-    fetch_items_failed: {
-      code: 'fetch_items_failed',
-      message: 'Failed to fetch items',
+    fetch_courses_failed: {
+      code: 'fetch_courses_failed',
+      message: 'Failed to fetch courses',
       statusCode: 500,
     },
-    update_item_failed: {
-      code: 'update_item_failed',
-      message: 'Failed to update item',
+    update_course_failed: {
+      code: 'update_course_failed',
+      message: 'Failed to update course',
       statusCode: 500,
     },
-    delete_item_failed: {
-      code: 'delete_item_failed',
-      message: 'Failed to delete item',
+    delete_course_failed: {
+      code: 'delete_course_failed',
+      message: 'Failed to delete course',
       statusCode: 500,
     },
-    item_already_exist: {
-      code: 'item_already_exist',
-      message: 'Item already exists for the user',
+    course_already_exist: {
+      code: 'course_already_exist',
+      message: 'course already exists for the user',
       statusCode: 409,
     },
-    item_not_found: {
-      code: 'item_not_found',
-      message: 'Item not found',
+    course_not_found: {
+      code: 'course_not_found',
+      message: 'course not found',
       statusCode: 404,
     },
-    item_not_authorized: {
-      code: 'item_not_authorized',
-      message: 'You are not authorized to update or delete this item',
+    course_not_authorized: {
+      code: 'course_not_authorized',
+      message: 'You are not authorized to update or delete this course',
       statusCode: 403,
     },
     cart_not_found: {
@@ -127,9 +127,9 @@ const errorHandler = (err, req, res, next) => {
       message: 'Failed to decrease quantity',
       statusCode: 500,
     },
-    delete_item_from_cart_failed: {
-      code: 'delete_item_from_cart_failed',
-      message: 'Failed to delete item from cart',
+    delete_course_from_cart_failed: {
+      code: 'delete_course_from_cart_failed',
+      message: 'Failed to delete course from cart',
       statusCode: 500,
     },
     empty_cart_failed: {

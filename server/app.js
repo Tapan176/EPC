@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
-const authRoutes = require('./src/auth/route');
+const routes = require('./routes/index');
+
 const { errorHandler } = require('./src/middleware/errorHandler');
 
 dotenv.config();
@@ -13,6 +15,8 @@ dotenv.config();
 const app = express();
 const port = process.env.SERVER_PORT;
 const databaseUrl = process.env.DATABASE_URL;
+
+app.use(cors());
 
 mongoose.connect(
   databaseUrl,
@@ -41,7 +45,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/uploads', express.static('./server/public/images'));
-app.use(authRoutes);
+app.use('/', routes);
 app.use(errorHandler);
 
 app.listen(port, () => {

@@ -38,10 +38,11 @@ const signUp = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
+    console.log(req.body);
+
     const { email, password } = req.body;
-
     const user = await User.findOne({ email });
-
+    
     if (!user) {
       throw new Error('user_not_found');
     }
@@ -49,8 +50,8 @@ const login = async (req, res, next) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (passwordMatch) {
-      req.session.user = { id: user._id.toString(), email: user.email, name: user.name };
-      res.status(204).json();
+      req.session.user = { id: user._id.toString(), email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role };
+      res.status(200).json();
     } else {
       throw new Error('incorrect_password');
     }
@@ -61,7 +62,7 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    if (req.session.user) {
+    if (req.user) {
       req.session.destroy((error) => {
         if (error) {
           throw new Error('logout_failed');
