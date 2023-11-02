@@ -1,65 +1,48 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React from 'react'
 import axios from 'axios';
 
-class LoginForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formData: { email: '', password: '' },
+export default function LoginForm() {
+
+
+  // const handleSubmit =(e)=>{
+  //   e.preventDefault();
+  //   console.log(e.target[0].value);
+  //   console.log(e.target[1].value);
+
+
+  // }
+
+  const handleLogin = async (e) => {
+    const formData = {
+      email: e.target[0].value,
+      password: e.target[1].value
     };
+   
+    fetch("http://localhost:5050/auth/login",
+    {
+      headers:{
+      'Accept': 'application/json',
+      'Content-Type': 'application/json' 
+      
+    },
+    method:"POST",
+    body: JSON.stringify(formData)
   }
+    )
 
-  handleLogin = async () => {
-    try {
-      const response = await axios.post('http://localhost:5050/auth/login', this.state.formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
 
-      if (response.status === 200) {
-        this.props.history.push('/dashboard');
-      } else {
-        console.error('Login failed');
-      }
-    } catch (error) {
-      console.error('An error occurred during login:', error);
-    }
   };
 
-  handleEmailChange = (e) => {
-    this.setState({
-      formData: { ...this.state.formData, email: e.target.value },
-    });
-  };
 
-  handlePasswordChange = (e) => {
-    this.setState({
-      formData: { ...this.state.formData, password: e.target.value },
-    });
-  };
-
-  render() {
-    return (
-      <div>
-        <h2>Login</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          value={this.state.formData.email}
-          onChange={this.handleEmailChange}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={this.state.formData.password}
-          onChange={this.handlePasswordChange}
-        />
-        <button onClick={this.handleLogin}>Login</button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <form onSubmit={handleLogin}>
+        <label>Email:</label>
+        <input type='email'></input>
+        <label>Password:</label>
+        <input type='password'></input>
+        <button type='submit'>submit</button>
+        </form>
+    </div>
+  )
 }
-
-export default withRouter(LoginForm);

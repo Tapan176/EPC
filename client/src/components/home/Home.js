@@ -1,19 +1,21 @@
-/* eslint-disable no-useless-constructor */
-import React, { Component } from 'react';
+import React from 'react'
+import LoginForm from '../auth/LoginForm'
+import { useNavigate } from 'react-router-dom'
 
-import {useNavigate} from "react-router-dom"
+export default function Home() {
+
+    const navigate = useNavigate();
 
 
-const Home = () => {
-    const navigate = useNavigate(); 
+  const handleClick = (path) => {
+
+    navigate(path);
+
+  }
+
   return (
-            <>
-            <div>
-                <button onClick={()=>navigate("/Login") }> </button>
-            </div>
-            </>
+    <div onClick={()=>handleClick("/login")}> Login</div>
   )
 }
 
-export default Home
 
