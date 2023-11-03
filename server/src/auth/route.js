@@ -3,12 +3,12 @@ const express = require('express');
 const router = express.Router();
 const authController = require('./controller');
 const { verifyJwtToken } = require('../middleware/verifyJwtToken');
-// const {
-//   signUpValidation,
-//   loginValidation,
-//   forgotPasswordValidation,
-//   resetPasswordValidation,
-// } = require('./validations');
+const {
+  signUpValidation,
+  loginValidation,
+  forgotPasswordValidation,
+  resetPasswordValidation,
+} = require('./validations');
 
 /**
  * @swagger
@@ -38,8 +38,7 @@ const { verifyJwtToken } = require('../middleware/verifyJwtToken');
  *       '500':
  *         $ref: '#/components/responses/authenticationFailed'
  */
-// router.post('/login', loginValidation, authController.login);
-router.post('/login', authController.login);
+router.post('/login', loginValidation, authController.login);
 
 /**
  * @swagger
@@ -64,7 +63,7 @@ router.post('/login', authController.login);
  *       '500':
  *         $ref: '#/components/responses/failedToRegisterUser'
  */
-// router.post('/signup', signUpValidation, authController.signUp);
+router.post('/signup', signUpValidation, authController.signUp);
 
 /**
  * @swagger
@@ -81,11 +80,11 @@ router.post('/login', authController.login);
  *       '500':
  *         $ref: '#/components/responses/logoutFailed'
  */
-// router.post('/logout', authController.logout);
+router.post('/logout', authController.logout);
 
 /**
  * @swagger
- * /forgotPassword:
+ * /forgot-password:
  *   post:
  *     tags:
  *       - Authentication
@@ -104,11 +103,11 @@ router.post('/login', authController.login);
  *       '500':
  *         $ref: '#/components/responses/internalServerError'
  */
-// router.post('/forgotPassword', forgotPasswordValidation, authController.forgotPassword);
+router.post('/forgot-password', forgotPasswordValidation, authController.forgotPassword);
 
 /**
  * @swagger
- * /resetPassword:
+ * /reset-password:
  *   post:
  *     tags:
  *       - Authentication
@@ -131,6 +130,6 @@ router.post('/login', authController.login);
  *       '500':
  *         $ref: '#/components/responses/internalServerError'
  */
-// router.post('/resetPassword', verifyJwtToken, resetPasswordValidation, authController.resetPassword);
+router.post('/reset-password', verifyJwtToken, resetPasswordValidation, authController.resetPassword);
 
 module.exports = router;

@@ -6,7 +6,7 @@ const helper = require('../utils/helper');
 const signUp = async (req, res, next) => {
   try {
     const {
-      name, email, password, confirmPassword, address,
+      firstName, lastName, email, password, confirmPassword,
     } = req.body;
 
     const existingUser = await User.findOne({ email });
@@ -22,15 +22,15 @@ const signUp = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
-      name,
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
-      address,
     });
 
     await user.save();
 
-    res.status(201).json();
+    res.status(201).json({ isSignUpSuccessfull: true });
   } catch (error) {
     next(error);
   }
@@ -38,8 +38,6 @@ const signUp = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    console.log(req.body);
-
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     
@@ -51,7 +49,7 @@ const login = async (req, res, next) => {
 
     if (passwordMatch) {
       req.session.user = { id: user._id.toString(), email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role };
-      res.status(200).json();
+      res.status(200).json({ isLoginSuccessfull: true });
     } else {
       throw new Error('incorrect_password');
     }
@@ -89,11 +87,14 @@ const forgotPassword = async (req, res, next) => {
     }
 
     const resetToken = helper.generateToken({ email });
-    const linkToSend = `http://localhost:${process.env.SERVER_PORT}/resetpassword?token=${resetToken}`;
+    const emailSubject = `Reset password link for you EPC account.`;
 
-    await helper.sendEmail(email, linkToSend);
+    const linkToSend = `http://localhost:${process.env.CLIENT_SERVER_PORT}/reset-password?token=${resetToken}`;
+    const emailbody = `Here is your reset password link ${linkToSend}.\nIf you haven't changed your password please report it to our customer service as soon as possible.`;
+    
+    await helper.sendEmail(email, emailSubject, emailbody, linkToSend);
 
-    res.status(200).json({ code: 'reset_token_sent_successfully', message: 'Reset token sent successfully' });
+    res.status(200).json({ code: 'reset_token_sent_successfully', message: 'Reset token sent successfully', isEmailSent: true });
   } catch (error) {
     next(error);
   }
@@ -127,7 +128,7 @@ const resetPassword = async (req, res, next) => {
     existingUser.updatedAt = new Date();
     await existingUser.save();
 
-    res.status(200).json({ code: 'password_reset_successful', message: 'Password reset successful' });
+    res.status(200).json({ code: 'password_reset_successful', message: 'Password reset successful', ispasswordReseted: true });
   } catch (error) {
     next(error);
   }
