@@ -8,6 +8,7 @@ const { authenticate } = require('../middleware/authentication');
 // Define your course routes using the courseController methods
 router.get('/courses', courseController.getAllCourses);
 router.post('/courses', authenticate, courseController.addCourse);
+router.post('/courses/enroll', authenticate, courseController.enrollInCourse);
 router.get('/courses/search', courseController.searchCourse);
 router.get('/courses/myCourses', authenticate, courseController.getCoursesOfUser);
 router.get('/courses/:courseId', courseController.getCourseById);
